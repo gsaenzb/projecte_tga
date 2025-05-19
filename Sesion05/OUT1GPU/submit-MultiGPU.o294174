@@ -1,0 +1,41 @@
+
+KERNEL Strassen 1 GPU - Producto Matrices
+Dimensiones: 1024x1024
+nThreads: 32x32 (1024)
+nBlocks: 16x16 (256)
+Tiempo Global: 44.176865 milseg
+Tiempo Kernel: 30.848385 milseg
+Rendimiento Global: 48.61 GFLOPS
+Rendimiento Kernel: 69.61 GFLOPS
+Error a la posició 0: CPU=264.159363, GPU=264.159210
+TEST FAIL
+
+KERNEL Strassen 1 GPU - Producto Matrices
+Dimensiones: 2048x2048
+nThreads: 32x32 (1024)
+nBlocks: 32x32 (1024)
+Tiempo Global: 73.231972 milseg
+Tiempo Kernel: 52.994911 milseg
+Rendimiento Global: 234.60 GFLOPS
+Rendimiento Kernel: 324.18 GFLOPS
+NO TEST
+
+KERNEL Strassen 1 GPU - Producto Matrices
+Dimensiones: 4096x4096
+nThreads: 32x32 (1024)
+nBlocks: 64x64 (4096)
+Tiempo Global: 206.823486 milseg
+Tiempo Kernel: 164.516510 milseg
+Rendimiento Global: 664.52 GFLOPS
+Rendimiento Kernel: 835.41 GFLOPS
+NO TEST
+
+KERNEL Strassen 1 GPU - Producto Matrices
+Dimensiones: 8192x8192
+nThreads: 32x32 (1024)
+nBlocks: 128x128 (16384)
+Tiempo Global: 756.803284 milseg
+Tiempo Kernel: 668.418152 milseg
+Rendimiento Global: 1452.84 GFLOPS
+Rendimiento Kernel: 1644.95 GFLOPS
+NO TEST

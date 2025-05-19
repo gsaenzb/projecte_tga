@@ -1,0 +1,44 @@
+
+KERNEL MultiGPU - Producto Matrices
+Dimensiones: 1024x1024
+nThreads: 32x32 (1024)
+nBlocks: 16x16 (256)
+Usando Pinned Memory.
+Tiempo Global: 1.920736 milseg
+Rendimiento Global: 1118.05 GFLOPS
+Para obtener el tiempo del kernel usad nvprof.
+Pass 0
+Pass 1
+Pass 2
+Pass 3
+TEST PASS
+
+KERNEL MultiGPU - Producto Matrices
+Dimensiones: 2048x2048
+nThreads: 32x32 (1024)
+nBlocks: 32x32 (1024)
+Usando Pinned Memory.
+Tiempo Global: 5.381856 milseg
+Rendimiento Global: 3192.18 GFLOPS
+Para obtener el tiempo del kernel usad nvprof.
+NO TEST
+
+KERNEL MultiGPU - Producto Matrices
+Dimensiones: 4096x4096
+nThreads: 32x32 (1024)
+nBlocks: 64x64 (4096)
+Usando Pinned Memory.
+Tiempo Global: 28.506624 milseg
+Rendimiento Global: 4821.30 GFLOPS
+Para obtener el tiempo del kernel usad nvprof.
+NO TEST
+
+KERNEL MultiGPU - Producto Matrices
+Dimensiones: 8192x8192
+nThreads: 32x32 (1024)
+nBlocks: 128x128 (16384)
+Usando Pinned Memory.
+Tiempo Global: 174.881561 milseg
+Rendimiento Global: 6287.18 GFLOPS
+Para obtener el tiempo del kernel usad nvprof.
+NO TEST
