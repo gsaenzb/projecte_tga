@@ -1,0 +1,11 @@
+
+ALGORITME DE STRASSEN
+Dimensions: 2048x2048
+nThreads: 32x32 (1024)
+nBlocks: 64x64 (4096)
+NO utilitza Pinned Memory
+Temps Global: 78.971840 milseg
+Temps Kernel: 37.787041 milseg
+Rendiment Global: 217.54 GFLOPS
+Rendiment Kernel: 454.65 GFLOPS
+TEST PASS
