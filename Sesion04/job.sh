@@ -28,8 +28,8 @@ export PATH=/Soft/cuda/12.2.2/bin:$PATH
 
 #$ -N ProdMbyM 
 
-./kernel00.exe  640 Y
-./kernel00.exe  641 Y
+#./kernel00.exe  640 Y
+#./kernel00.exe  641 Y
 
 #./kernel01.exe 639 641 1023 Y
 #./kernel10.exe 640 512 1024 Y

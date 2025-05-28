@@ -7,7 +7,7 @@
 #endif
 
 #ifndef PINNED
-#define PINNED 0
+#define PINNED 1
 #endif
 
 // Kernel per a la multiplicació de matrius en blocs (el mateix que Kernel10)

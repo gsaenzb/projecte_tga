@@ -14,12 +14,12 @@
 ##SBATCH --gres=gpu:rtx4090:1
 
 ## OPCIÓ B: Utilitzem les 4 RTX 3080
-##SBATCH --qos=cuda3080  
-##SBATCH --gres=gpu:rtx3080:4
+#SBATCH --qos=cuda3080  
+#SBATCH --gres=gpu:rtx3080:4
 
 ## OPCIÓ C: Utilitzem 1 RTX 3080
-#SBATCH --qos=cuda3080  
-#SBATCH --gres=gpu:rtx3080:1
+##SBATCH --qos=cuda3080  
+##SBATCH --gres=gpu:rtx3080:1
 
 export PATH=/Soft/cuda/12.2.2/bin:$PATH
 
@@ -30,7 +30,7 @@ export PATH=/Soft/cuda/12.2.2/bin:$PATH
 #./kernel10.exe 256 Y
 #./kernel10.exe 512 Y
 #./kernel10.exe 1024 Y
-./kernel10.exe 2048 Y
+#./kernel10.exe 2048 Y
 
 # Execucions per mesurar rendiment sense comprovació
 #./kernel10.exe 128 N
@@ -40,8 +40,11 @@ export PATH=/Soft/cuda/12.2.2/bin:$PATH
 #./kernel10.exe 2048 N
 #./kernel10.exe 4096 N
 
+# Execucions per Kernel20.exe
+#./kernel20.exe 2048 N
+
 # Opcional: comparació amb el mètode original (si és disponible)
 # ./MM10.exe 1024 1024 1024 N
 
 # Opcional: Execucions amb NVIDIA Compute Profiler per analitzar rendiment
-# ncu --set full ./kernel10.exe 1024 N
+ncu --set full ./kernel10.exe 2048 Y

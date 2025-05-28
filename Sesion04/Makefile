@@ -11,12 +11,14 @@ EXE01	        = kernel01.exe
 EXE10	        = kernel10.exe
 EXE11	        = kernel11.exe
 EXE22	        = kernel22.exe
+EXE20					= kernel20.exe
 
 OBJ00	        = MM00.o
 OBJ01	        = MM01.o
 OBJ10	        = MM10.o
 OBJ11	        = MM11.o
 OBJ22	        = MM22.o
+OBJ20					= MM20.o
 
 default: $(EXE00)
 
@@ -30,6 +32,8 @@ MM11.o: MM11.cu
 	$(NVCC) -c -o $@ MM11.cu $(NVCC_FLAGS) $(PROG_FLAGS)
 MM22.o: MM22.cu
 	$(NVCC) -c -o $@ MM22.cu $(NVCC_FLAGS) $(PROG_FLAGS)
+MM20.o: MM20.cu
+	$(NVCC) -c -o $@ MM20.cu $(NVCC_FLAGS) $(PROG_FLAGS)
 
 
 $(EXE00): $(OBJ00)
@@ -47,8 +51,11 @@ $(EXE11): $(OBJ11)
 $(EXE22): $(OBJ22)
 	$(NVCC) $(OBJ22) -o $(EXE22) $(LD_FLAGS)
 
+$(EXE20): $(OBJ20)
+	$(NVCC) $(OBJ20) -o $(EXE20) $(LD_FLAGS)
 
-all:	$(EXE00) $(EXE01) $(EXE10) $(EXE11) $(EXE22)
+
+all:	$(EXE00) $(EXE01) $(EXE10) $(EXE11) $(EXE22) $(EXE20)
 
 clean:
 	rm -rf *.o kernel*.exe
