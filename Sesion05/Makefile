@@ -6,22 +6,30 @@ LD_FLAGS    = -lcudart -Xlinker -rpath,$(CUDA_HOME)/lib64 -I$(CUDA_HOME)/sdk/CUD
 
 PROG_FLAGS  = -DSIZE=32
 
+EXE = STR1GPUs.exe STR2GPUs.exe STR4GPUs.exe
+OBJ = STR1GPUs.o STR2GPUs.o STR4GPUs.o
 
-EXE4GPUs    = kernel4GPUs.exe
+default: all
 
-OBJ4GPUs    = MM4GPUs.o
+STR1GPUs.o: STR1GPUs.cu
+	$(NVCC) -c -o $@ STR1GPUs.cu $(NVCC_FLAGS) $(PROG_FLAGS)
 
-default: $(EXE4GPUs)
+STR1GPUs.exe: STR1GPUs.o
+	$(NVCC) STR1GPUs.o -o STR1GPUs.exe $(LD_FLAGS)
 
-MM4GPUs.o: MM4GPUs.cu
-	$(NVCC) -c -o $@ MM4GPUs.cu $(NVCC_FLAGS) $(PROG_FLAGS)
+STR2GPUs.o: STR2GPUs.cu
+	$(NVCC) -c -o $@ STR2GPUs.cu $(NVCC_FLAGS) $(PROG_FLAGS)
 
+STR2GPUs.exe: STR2GPUs.o
+	$(NVCC) STR2GPUs.o -o STR2GPUs.exe $(LD_FLAGS)
 
-$(EXE4GPUs): $(OBJ4GPUs)
-	$(NVCC) $(OBJ4GPUs) -o $(EXE4GPUs) $(LD_FLAGS)
+STR4GPUs.o: STR4GPUs.cu
+	$(NVCC) -c -o $@ STR4GPUs.cu $(NVCC_FLAGS) $(PROG_FLAGS)
 
+STR4GPUs.exe: STR4GPUs.o
+	$(NVCC) STR4GPUs.o -o STR4GPUs.exe $(LD_FLAGS)
 
-all:	$(EXE4GPUs) 
+all: $(EXE) 
 
 clean:
 	rm -rf *.o kernel*.exe
