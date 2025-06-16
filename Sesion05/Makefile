@@ -6,8 +6,8 @@ LD_FLAGS    = -lcudart -Xlinker -rpath,$(CUDA_HOME)/lib64 -I$(CUDA_HOME)/sdk/CUD
 
 PROG_FLAGS  = -DSIZE=32
 
-EXE = STR1GPUs.exe STR2GPUs.exe STR4GPUs.exe
-OBJ = STR1GPUs.o STR2GPUs.o STR4GPUs.o
+EXE = STR1GPUs.exe STR1GPUspin.exe STR1GPUsasync.exe STR2GPUs.exe STR4GPUs.exe
+OBJ = STR1GPUs.o STR1GPUspin.o STR1GPUsasync.o STR2GPUs.o STR4GPUs.o
 
 default: all
 
@@ -16,6 +16,18 @@ STR1GPUs.o: STR1GPUs.cu
 
 STR1GPUs.exe: STR1GPUs.o
 	$(NVCC) STR1GPUs.o -o STR1GPUs.exe $(LD_FLAGS)
+
+STR1GPUspin.o: STR1GPUs.cu
+	$(NVCC) -c -o $@ STR1GPUs.cu -DPINNED_MEMORY $(NVCC_FLAGS) $(PROG_FLAGS)
+
+STR1GPUspin.exe: STR1GPUspin.o
+	$(NVCC) STR1GPUspin.o -o STR1GPUspin.exe -DPINNED_MEMORY $(LD_FLAGS)
+
+STR1GPUsasync.o: STR1GPUs.cu
+	$(NVCC) -c -o $@ STR1GPUs.cu -DPINNED_MEMORY -DASYNC_CALLS $(NVCC_FLAGS) $(PROG_FLAGS)
+
+STR1GPUsasync.exe: STR1GPUsasync.o
+	$(NVCC) STR1GPUsasync.o -o STR1GPUsasync.exe -DPINNED_MEMORY -DASYNC_CALLS $(LD_FLAGS)
 
 STR2GPUs.o: STR2GPUs.cu
 	$(NVCC) -c -o $@ STR2GPUs.cu $(NVCC_FLAGS) $(PROG_FLAGS)

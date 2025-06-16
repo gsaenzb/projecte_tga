@@ -452,6 +452,7 @@ int main(int argc, char** argv) {
   dim3 dimGrid(nBlocks, nBlocks, 1);
   dim3 dimBlock(nThreads, nThreads, 1);
 
+#ifdef PINNED_MEMORY
   // Obtenim memòria al host
   cudaMallocHost((float**)&hA, numBytes);
   cudaMallocHost((float**)&hB, numBytes);
@@ -469,6 +470,24 @@ int main(int argc, char** argv) {
   cudaMallocHost((float**)&hC12, numBytesHalf);
   cudaMallocHost((float**)&hC21, numBytesHalf);
   cudaMallocHost((float**)&hC22, numBytesHalf);
+#else
+  hA = (float*)malloc(numBytes);
+  hB = (float*)malloc(numBytes);
+  hC = (float*)malloc(numBytes);
+
+  hA11 = (float*)malloc(numBytesHalf);
+  hA12 = (float*)malloc(numBytesHalf);
+  hA21 = (float*)malloc(numBytesHalf);
+  hA22 = (float*)malloc(numBytesHalf);
+  hB11 = (float*)malloc(numBytesHalf);
+  hB12 = (float*)malloc(numBytesHalf);
+  hB21 = (float*)malloc(numBytesHalf);
+  hB22 = (float*)malloc(numBytesHalf);
+  hC11 = (float*)malloc(numBytesHalf);
+  hC12 = (float*)malloc(numBytesHalf);
+  hC21 = (float*)malloc(numBytesHalf);
+  hC22 = (float*)malloc(numBytesHalf);
+#endif
   
   // Inicialitzem les matrius al host
   InitM(N, N, hA);
@@ -508,7 +527,9 @@ int main(int argc, char** argv) {
 
   // Implementem l'algorisme de Strassen
   cudaEventRecord(E0, 0);
-  
+  cudaEventSynchronize(E0);
+
+#ifndef ASYNC_CALLS
   cudaMemcpy(dA11, hA11, numBytesHalf, cudaMemcpyHostToDevice);
   cudaMemcpy(dA12, hA12, numBytesHalf, cudaMemcpyHostToDevice);
   cudaMemcpy(dA21, hA21, numBytesHalf, cudaMemcpyHostToDevice);
@@ -517,8 +538,19 @@ int main(int argc, char** argv) {
   cudaMemcpy(dB12, hB12, numBytesHalf, cudaMemcpyHostToDevice);
   cudaMemcpy(dB21, hB21, numBytesHalf, cudaMemcpyHostToDevice);
   cudaMemcpy(dB22, hB22, numBytesHalf, cudaMemcpyHostToDevice);
+#else
+  cudaMemcpyAsync(dA11, hA11, numBytesHalf, cudaMemcpyHostToDevice);
+  cudaMemcpyAsync(dA12, hA12, numBytesHalf, cudaMemcpyHostToDevice);
+  cudaMemcpyAsync(dA21, hA21, numBytesHalf, cudaMemcpyHostToDevice);
+  cudaMemcpyAsync(dA22, hA22, numBytesHalf, cudaMemcpyHostToDevice);
+  cudaMemcpyAsync(dB11, hB11, numBytesHalf, cudaMemcpyHostToDevice);
+  cudaMemcpyAsync(dB12, hB12, numBytesHalf, cudaMemcpyHostToDevice);
+  cudaMemcpyAsync(dB21, hB21, numBytesHalf, cudaMemcpyHostToDevice);
+  cudaMemcpyAsync(dB22, hB22, numBytesHalf, cudaMemcpyHostToDevice);
+#endif
   
   cudaEventRecord(E1, 0);
+  cudaEventSynchronize(E1);
 
   // 2. Calculem les 7 matrius M utilitzant els kernels que hem creat
   KernelM1<<<dimGrid, dimBlock>>>(half_N, dA11, dA22, dB11, dB22, dM1);
@@ -568,13 +600,21 @@ int main(int argc, char** argv) {
 
   // Finalitzem el cronòmetre dels kernels
   cudaEventRecord(E3, 0);
+  cudaEventSynchronize(E3);
 
   // 4. Unir les submatrius C per obtenir el resultat final
   // Copiem les dades a la matriu C completa
+#ifndef ASYNC_CALLS
   cudaMemcpy(hC11, dC11, numBytesHalf, cudaMemcpyDeviceToHost);
   cudaMemcpy(hC12, dC12, numBytesHalf, cudaMemcpyDeviceToHost);
   cudaMemcpy(hC21, dC21, numBytesHalf, cudaMemcpyDeviceToHost);
   cudaMemcpy(hC22, dC22, numBytesHalf, cudaMemcpyDeviceToHost);
+#else
+  cudaMemcpyAsync(hC11, dC11, numBytesHalf, cudaMemcpyDeviceToHost);
+  cudaMemcpyAsync(hC12, dC12, numBytesHalf, cudaMemcpyDeviceToHost);
+  cudaMemcpyAsync(hC21, dC21, numBytesHalf, cudaMemcpyDeviceToHost);
+  cudaMemcpyAsync(hC22, dC22, numBytesHalf, cudaMemcpyDeviceToHost);
+#endif
   
   cudaEventRecord(E4, 0);
   cudaEventSynchronize(E4);
