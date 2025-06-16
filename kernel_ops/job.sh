@@ -26,10 +26,13 @@
 export PATH=/Soft/cuda/12.2.2/bin:$PATH
 
 
-#$ -N ProdMbyM 
+##$ -N ProdMbyM 
 
-./kernel00.exe  640 Y
-./kernel00.exe  641 Y
+#./kernel0.exe  640 Y
+/scratch/nas/1/tga1029/projects/gian-projecte_tga/Sesion04/kernel10.exe 4096 N
+/scratch/nas/1/tga1029/projects/gian-projecte_tga/Sesion04/kernel10.exe 8192 N
+/scratch/nas/1/tga1029/projects/gian-projecte_tga/Sesion04/kernel10.exe 16384 N
+#./kernel00.exe  641 Y
 
 #./kernel01.exe 639 641 1023 Y
 #./kernel10.exe 640 512 1024 Y

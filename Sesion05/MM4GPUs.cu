@@ -1,1 +1,0 @@
-STR1GPUs.cu
